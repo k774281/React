@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"></meta>
+    <title>React constructor & initial state</title>
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"></script>
+    <script type="text/javascript">
+
+        class Myhead extends React.Component{            
+            render(){
+                return React.createElement("H"+this.props.level, null, "Hello React");
+            }
+        }
+        class MyheadList extends React.Component{
+            constructor(props){
+                super(props);
+                this.state={maxLevel:3};
+                window.setTimeout(()=>{
+                    this.setState((currentState, currentProps)=>({maxLevel:currentState.maxLevel+1}));
+                },2000);
+            }
+            render(){
+                let heads=[];
+                let head;
+                for(let i=1;i<this.state.maxLevel;i++){
+                    head=React.createElement(Myhead, {level:i});
+                    heads.push(head);
+                }
+                return React.createElement("DIV", null, heads);
+            }
+        }
+        window.addEventListener("load", ()=>{
+            let myComponent=React.createElement(MyheadList, null);
+            ReactDOM.render(myComponent, document.body);
+        })
+    </script>
+</head>
+<body>    
+</body>
+</html>
