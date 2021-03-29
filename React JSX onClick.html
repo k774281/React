@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"></meta>
+    <title>React JSX</title>
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style type="text/css">
+        .head-3{font-size: 24px;font-weight: bold;}
+    </style>
+    <script type="text/babel">
+
+        class Myhead extends React.Component{
+            constructor(props){
+                super(props);
+                this.state={color:"red"};
+            }
+            render(){
+                return <div className={"head-"+this.props.level}
+                style={{color:this.state.color}}
+                onClick={this.clickHandler.bind(this)}
+                onMouseOver={this.mouseOverHandler.bind(this)}
+                onMouseOut={this.mouseOutHandler.bind(this)}>Hello JAX</div>
+                
+            }
+            clickHandler(e){
+                this.setState({color:"blue"});
+            }
+            mouseOverHandler(e){
+                this.setState({color:"blue"});
+            }
+            mouseOutHandler(e){
+                this.setState({color:"red"});
+            }
+        }
+        
+        window.addEventListener("load",()=>{
+            let elem=<Myhead level="3"/>;
+            ReactDOM.render(
+                elem, document.body
+            );
+        });
+    </script>
+</head>
+<body>    
+</body>
+</html>
