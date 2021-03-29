@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"></meta>
+    <title>React JSX</title>
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style type="text/css">
+        .head-3{font-size: 24px;font-weight: bold;}
+    </style>
+    <script type="text/babel">
+
+        class MyForm extends React.Component{
+            constructor(props){
+                super(props);
+                this.state={
+                    name:""
+                };              
+            }
+            render(){
+                return <form onSubmit={this.handleSubmit.bind(this)}>
+                    Name <input type="text" value={this.state.name}
+                    onChange={this.handleNameChange.bind(this)}/>                    
+                    <input type="submit" value="Submit"/>    
+                </form>
+            }
+            handleNameChange(e){
+                this.setState=({name:e.currentTarget.value});
+            }
+            handleSubmit(e){
+                e.preventDefault();
+                console.log("finished")
+                console.log("Name:"+this.state.name);
+            }
+        }
+        
+        window.addEventListener("load",()=>{
+            let elem=<MyForm/>;
+            ReactDOM.render(
+                elem, document.body
+            );
+        });
+    </script>
+</head>
+<body>    
+</body>
+</html>
