@@ -15,15 +15,25 @@
             constructor(props){
                 super(props);
                 this.state={
-                    name:""
+                    name:"",
+                    gender:"male"
                 };              
             }
             render(){
                 return <form onSubmit={this.handleSubmit.bind(this)}>
                     Name <input type="text" value={this.state.name}
-                    onChange={this.handleNameChange.bind(this)}/>                    
+                    onChange={this.handleNameChange.bind(this)}/>
+                    <br/>
+                    Gender <select value={this.state.gender}
+                    onChange={this.handleGenderChange.bind(this)}>
+                    <option value="male">男</option>
+                    <option value="female">女</option>
+                    </select>
                     <input type="submit" value="Submit"/>    
                 </form>
+            }
+            handleGenderChange(e){
+                this.setState=({gender:e.currentTarget.value});
             }
             handleNameChange(e){
                 this.setState=({name:e.currentTarget.value});
@@ -32,14 +42,12 @@
                 e.preventDefault();
                 console.log("finished")
                 console.log("Name:"+this.state.name);
+                console.log("Gender:"+this.state.gender);
             }
         }
         
         window.addEventListener("load",()=>{
-            let elem=<MyForm/>;
-            ReactDOM.render(
-                elem, document.body
-            );
+            ReactDOM.render(<MyForm/> ,document.body);
         });
     </script>
 </head>
