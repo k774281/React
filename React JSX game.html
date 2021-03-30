@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"></meta>
+    <title>React JSX</title>
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style type="text/css">
+    </style>
+    <script type="text/babel">
+        class Line extends React.Component{
+            render(){
+                // 根據贏家的資訊: startIndex 和 endIndex，把線條用 svg 標籤畫在畫面上
+                let startX=this.props.startIndex%3;
+                let startY=Math.floor(this.props.startIndex/3);
+                let endX=this.props.endIndex%3;
+                let endY=Math.floor(this.props.endIndex/3);
+                return <svg className="line">
+                <line x1={startX*100+50} y1={startY*100+50} x2={endX*100+50} y2={endY*100+50} stroke="red" strokeWidth="10"/></svg>;
+            }
+        }
+        class Cell extends React.Component{
+            render(){
+                let text="";
+                if(this.state.mark===0){
+                    text="O";
+                }else if(this.state.mark===1){
+                    text="X";
+                }
+                return <div className="cell" onClick={this.click.bind(this)}>{text}</div>
+            }
+            click(){
+                this.props.update(this.props.index);
+            }
+        }
+        class Board extends React.Component{
+            constructor(props){
+                super(props);
+                /*
+                    內容編號, marks對應下列編號
+                    0 1 2
+                    3 4 5
+                    6 7 8
+                */
+                // 應用程式狀態
+                this.state={
+                    circle:0, // 一開始回合數為0
+                    marks:[-1, -1, -1, -1, -1, -1, -1, -1, -1], // 內容標記, -1 還沒畫圈, 0 畫了O, 1 代表X
+                    winner:null, //贏家資訊, 一開始還沒有任何人贏, 屬性設定0
+                }
+            }
+            render(){
+                let cells=[];
+                for(let i=0; i<this.state.marks.length; i++){
+                    cells.push(<Cell index={i} mark={this.state.marks[i]}
+                    update={this.updateMark.bind(this)}/>);
+                }
+                if(this.state.winner!==null){
+                    cells.push(<Line/>)
+                }
+                return <div className="board">{cells}</div>
+            }
+            //兩種方法來更新內容標記
+            updateMark(index){
+                let currentMark=this.state.marks[index];
+                /*
+                    a. 目前標記必須是 -1, 代表內容空白
+                    b. 目前沒有贏家
+                */
+               if(currentMark===-1&&this.state.winner===null){
+                   this.setState((preState)=>{
+                       let mark=preState.state.circle%2;//根據回合數畫圈或叉
+                       preState.state.marks[index]=mark;//把圈或叉標記,紀錄到marks 
+                       let winner=this.checkWinner(preState.marks);                 
+                       return {
+                           circle:preState.circle+1,
+                           marks:preState.marks
+                       };
+                   })
+               }
+            }
+            checkWinner(marks){
+                
+            }
+        }
+
+        window.addEventListener("load", ()=>{
+            ReactDOM.render(<Board/>, document.body);
+        })
+    </script>
+</head>
+<body>    
+</body>
+</html>

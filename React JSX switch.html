@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"></meta>
+    <title>React JSX</title>
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style type="text/css">
+        .switch{
+            width:60px; height: 30px;background-color: rgb(224, 224, 224); border-radius: 15px;
+        }
+        .switch>.btn{
+            width:30px; height: 30px;background-color: #444444;border-radius: 50%;
+        }
+        .switch-on{
+            background-color: #ddffdd;
+        }
+        .switch-on>.btn{
+            background-color: #448844; margin-left: 30px;
+        }
+    </style>
+    <script type="text/babel">
+        class Switch extends React.Component{
+            constructor(props){
+                super(props);
+                this.state={on:false};
+            }
+            render(){
+                let className="switch";
+                if(this.state.on){
+                    className+=" switch-on";
+                }
+                return <div onClick={this.update.bind(this)} className={className}>
+                    <div className="btn"></div>    
+                </div>
+            }
+            update(){
+                this.setState((currentState)=>({on:!currentState.on}));
+            }
+        }
+        window.addEventListener("load",()=>{
+            ReactDOM.render(<Switch/>, document.body);
+        })
+    </script>
+</head>
+<body>    
+</body>
+</html>
